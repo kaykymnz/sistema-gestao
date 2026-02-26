@@ -1,0 +1,50 @@
+.sidebar {
+  flex-shrink: 0;
+  width: 260px;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: var(--color-primary-dark);
+  color: white;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  margin-top: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+li {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+li.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+}
