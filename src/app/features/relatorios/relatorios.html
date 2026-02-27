@@ -1,1 +1,116 @@
-<p>relatorios works!</p>
+<app-relatorios-skeleton *ngIf="loading$ | async"></app-relatorios-skeleton>
+
+<div class="relatorios" *ngIf="!(loading$ | async)">
+  <header class="page-header">
+    <h1>Relatórios Inteligentes</h1>
+    <p class="subtitle">Análises geradas por IA para suporte à tomada de decisão</p>
+    <button class="btn-gerar" (click)="gerarRelatorio()" *ngIf="!(relatorioGerando$ | async)">Gerar Novo Relatório</button>
+  </header>
+
+  <!-- Relatório em Processamento -->
+  <div class="relatorio-processamento" *ngIf="relatorioGerando$ | async as relatorioNovo">
+    <section class="relatorio-genro" [ngClass]="getMaturidadeClasse(relatorioNovo.classificacaoMaturidade.score)">
+      <div class="relatorio-header">
+        <h2>{{ relatorioNovo.titulo }}</h2>
+        <div class="meta">
+          <span class="confiabilidade">Confiabilidade: {{ relatorioNovo.confiabilidade }}%</span>
+          <span class="data">{{ relatorioNovo.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+      </div>
+
+      <!-- Classificação de Maturidade -->
+      <div class="card maturidade">
+        <h3>Classificação de Maturidade</h3>
+        <div class="maturidade-info">
+          <div class="score-grande">{{ relatorioNovo.classificacaoMaturidade.score }}%</div>
+          <div class="nivel">{{ relatorioNovo.classificacaoMaturidade.niveau | titlecase }}</div>
+          <p class="comparativo">{{ relatorioNovo.classificacaoMaturidade.comparativoSetor }}% acima do setor</p>
+        </div>
+      </div>
+
+      <!-- Diagnóstico -->
+      <div class="card diagnostico">
+        <h3>Diagnóstico</h3>
+        <p class="resumo">{{ relatorioNovo.diagnostico.resumoExecutivo }}</p>
+        
+        <div class="achados">
+          <h4>Achados Principais</h4>
+          <div class="achado-item" *ngFor="let achado of relatorioNovo.diagnostico.achados" [ngClass]="'impacto-' + achado.impacto">
+            <h5>{{ achado.titulo }} <span class="categoria">({{ achado.categoria }})</span></h5>
+            <p>{{ achado.descricao }}</p>
+            <small>Evidência: {{ achado.evidencia }}</small>
+          </div>
+        </div>
+
+        <div class="pontos">
+          <div class="grupo">
+            <h4>Pontos Fortes</h4>
+            <ul>
+              <li *ngFor="let ponto of relatorioNovo.diagnostico.pontosFortesIdentificados">{{ ponto }}</li>
+            </ul>
+          </div>
+          <div class="grupo">
+            <h4>Áreas Críticas</h4>
+            <ul>
+              <li *ngFor="let area of relatorioNovo.diagnostico.areaCritica">{{ area }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sugestões de Melhoria -->
+      <div class="card sugestoes">
+        <h3>Sugestões de Melhoria</h3>
+        <div class="sugestoes-list">
+          <div class="sugestao-card" *ngFor="let sugestao of relatorioNovo.sugestoes" [ngClass]="'prioridade-' + sugestao.prioridade">
+            <div class="sugestao-header">
+              <h4>{{ sugestao.titulo }}</h4>
+              <span class="prioridade">{{ sugestao.prioridade | titlecase }}</span>
+            </div>
+            <p>{{ sugestao.descricao }}</p>
+            <div class="metricas">
+              <div class="metrica">
+                <span class="label">Impacto</span>
+                <span class="value">{{ sugestao.impactoEstimado | titlecase }}</span>
+              </div>
+              <div class="metrica">
+                <span class="label">Esforço</span>
+                <span class="value">{{ sugestao.esforco }}%</span>
+              </div>
+              <div class="metrica">
+                <span class="label">ROI</span>
+                <span class="value">{{ sugestao.retornoOnInvestimento }}%</span>
+              </div>
+              <div class="metrica">
+                <span class="label">Implementação</span>
+                <span class="value">{{ sugestao.diasParaImplementacao }} dias</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Lista de Relatórios Anteriores -->
+  <section class="relatorios-anteriores" *ngIf="relatorios$ | async as relatorios">
+    <h2>Relatórios Anteriores</h2>
+    <div class="relatorios-list">
+      <div class="relatorio-item" *ngFor="let relatorio of relatorios">
+        <div class="item-header">
+          <h3>{{ relatorio.titulo }}</h3>
+          <span class="data">{{ relatorio.dataCriacao | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <p>{{ relatorio.descricao }}</p>
+        <div class="item-stats">
+          <span class="maturidade" [ngClass]="getMaturidadeClasse(relatorio.classificacaoMaturidade.score)">
+            Maturidade: {{ relatorio.classificacaoMaturidade.score }}%
+          </span>
+          <span class="confiabilidade">
+            Confiabilidade: {{ relatorio.confiabilidade }}%
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

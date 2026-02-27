@@ -1,0 +1,453 @@
+.planejamento {
+  width: 100%;
+}
+
+.page-header {
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--color-text-primary);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+}
+
+.status-geral {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-border);
+  padding: 24px;
+  margin-bottom: 32px;
+
+  &.status-em_dia {
+    border-left: 6px solid #10b981;
+  }
+
+  &.status-atencao {
+    border-left: 6px solid #f59e0b;
+  }
+
+  &.status-critico {
+    border-left: 6px solid #ef4444;
+  }
+
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: var(--color-text-primary);
+  }
+
+  .progress-bar {
+    height: 12px;
+    background: var(--color-border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 12px;
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      border-radius: 6px;
+      transition: width 0.3s ease;
+    }
+  }
+
+  .percentage {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0;
+  }
+}
+
+.objetivos-section {
+  margin-bottom: 40px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--color-text-primary);
+  }
+}
+
+.objetivos-list {
+  display: grid;
+  gap: 16px;
+}
+
+.objetivo-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+
+  .objetivo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--color-text-primary);
+    }
+
+    .badge {
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+
+      &.status-nao_iniciado {
+        background: #e5e7eb;
+        color: #4b5563;
+      }
+
+      &.status-em_progresso {
+        background: #fef3c7;
+        color: #b45309;
+      }
+
+      &.status-concluido {
+        background: #d1fae5;
+        color: #047857;
+      }
+
+      &.status-em_atraso {
+        background: #fee2e2;
+        color: #b91c1c;
+      }
+    }
+  }
+
+  .descricao {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin: 0 0 8px 0;
+  }
+
+  .responsavel {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin: 0 0 16px 0;
+  }
+
+  .objetivo-progress {
+    margin-bottom: 20px;
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+
+      .label {
+        color: var(--color-text-secondary);
+        font-weight: 600;
+      }
+
+      .value {
+        color: var(--color-primary);
+        font-weight: 700;
+      }
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--color-border);
+      border-radius: 4px;
+      overflow: hidden;
+
+      .progress {
+        height: 100%;
+        background: linear-gradient(90deg, #3b82f6, #10b981);
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .metas {
+    border-top: 1px solid var(--color-border);
+    padding-top: 16px;
+
+    h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin: 0 0 12px 0;
+      text-transform: uppercase;
+    }
+  }
+
+  .metas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .meta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: var(--color-background);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+
+    .meta-info {
+      flex: 1;
+
+      .titulo {
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+
+      .categoria {
+        color: var(--color-text-secondary);
+        font-size: 11px;
+      }
+
+      .status {
+        display: inline-block;
+        margin-left: 8px;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-weight: 600;
+        font-size: 10px;
+
+        &.status-em_progresso {
+          background: #fef3c7;
+          color: #b45309;
+        }
+
+        &.status-concluido {
+          background: #d1fae5;
+          color: #047857;
+        }
+
+        &.status-em_atraso {
+          background: #fee2e2;
+          color: #b91c1c;
+        }
+      }
+    }
+
+    .meta-progress {
+      text-align: right;
+
+      .resultado {
+        font-weight: 600;
+        color: var(--color-primary);
+      }
+    }
+  }
+}
+
+.swot-section {
+  margin-bottom: 40px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--color-text-primary);
+  }
+}
+
+.swot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+
+  .swot-card {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0 0 12px 0;
+      padding: 0 0 8px 0;
+      border-bottom: 2px solid;
+      text-transform: uppercase;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        padding: 6px 0;
+        color: var(--color-text-secondary);
+        font-size: 12px;
+
+        &:before {
+          content: '• ';
+          margin-right: 6px;
+          font-weight: bold;
+        }
+      }
+    }
+
+    &.forcas {
+      background: #f0fdf4;
+
+      h3 {
+        color: #047857;
+        border-bottom-color: #10b981;
+      }
+    }
+
+    &.fraquezas {
+      background: #fdf2f8;
+
+      h3 {
+        color: #be175e;
+        border-bottom-color: #ec4899;
+      }
+    }
+
+    &.oportunidades {
+      background: #fef3c7;
+
+      h3 {
+        color: #b45309;
+        border-bottom-color: #f59e0b;
+      }
+    }
+
+    &.ameacas {
+      background: #fef2f2;
+
+      h3 {
+        color: #b91c1c;
+        border-bottom-color: #ef4444;
+      }
+    }
+  }
+}
+
+.riscos-section {
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--color-text-primary);
+  }
+}
+
+.riscos-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+
+  .risco-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid;
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+
+    &.status-baixo {
+      border-left-color: #10b981;
+    }
+
+    &.status-medio {
+      border-left-color: #3b82f6;
+    }
+
+    &.status-alto {
+      border-left-color: #f59e0b;
+    }
+
+    &.status-critico {
+      border-left-color: #ef4444;
+    }
+
+    .risco-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+
+      h4 {
+        font-size: 13px;
+        font-weight: 600;
+        margin: 0;
+        color: var(--color-text-primary);
+      }
+
+      .nivel {
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-size: 10px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+    }
+
+    .risco-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--color-border);
+
+      .metric {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .label {
+          font-size: 11px;
+          color: var(--color-text-secondary);
+          font-weight: 600;
+        }
+
+        .value {
+          font-size: 16px;
+          font-weight: 700;
+          color: var(--color-primary);
+        }
+      }
+    }
+
+    .mitigacao {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      margin: 0;
+
+      strong {
+        color: var(--color-text-primary);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .swot-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .riscos-list {
+    grid-template-columns: 1fr;
+  }
+}

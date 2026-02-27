@@ -1,1 +1,115 @@
-<p>dashboard works!</p>
+<app-dashboard-skeleton *ngIf="loading$ | async"></app-dashboard-skeleton>
+
+<div class="dashboard" *ngIf="!(loading$ | async) && (overview$ | async) as overview">
+  <header class="page-header">
+    <h1>Dashboard Estratégico</h1>
+    <p class="subtitle">Visão consolidada dos indicadores da universidade</p>
+  </header>
+
+  <div class="grid-container">
+    <!-- Índice de Maturidade -->
+    <div class="card maturity-card" [ngClass]="getMaturidadeClasse(overview.indiceMaturidade.niveau)">
+      <div class="card-header">
+        <h3>Índice de Maturidade</h3>
+        <span class="score">{{ overview.indiceMaturidade.score }}%</span>
+      </div>
+      <div class="card-body">
+        <p class="niveau">{{ overview.indiceMaturidade.niveau | titlecase }}</p>
+        <p class="description">{{ overview.indiceMaturidade.descricao }}</p>
+      </div>
+    </div>
+
+    <!-- Taxa de Rotatividade -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Taxa de Rotatividade</h3>
+        <span class="badge" [ngClass]="overview.taxaRotatividade.tendencia === 'decrescente' ? 'positive' : 'caution'">
+          {{ getTendenciaIcone(overview.taxaRotatividade.tendencia) }}
+        </span>
+      </div>
+      <div class="card-body">
+        <div class="metric">
+          <span class="value">{{ overview.taxaRotatividade.percentual }}%</span>
+          <span class="label">Geral</span>
+        </div>
+        <div class="breakdown">
+          <div class="item">
+            <span class="label">Docentes</span>
+            <span class="value">{{ overview.taxaRotatividade.docentes }}</span>
+          </div>
+          <div class="item">
+            <span class="label">Administrativos</span>
+            <span class="value">{{ overview.taxaRotatividade.administrativos }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tempo Médio de Matrícula -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Tempo Médio de Matrícula</h3>
+        <span class="badge" [ngClass]="overview.tempoMedioMatricula.tendencia === 'decrescente' ? 'positive' : 'caution'">
+          {{ getTendenciaIcone(overview.tempoMedioMatricula.tendencia) }}
+        </span>
+      </div>
+      <div class="card-body">
+        <div class="metric">
+          <span class="value">{{ overview.tempoMedioMatricula.diasMedio }}</span>
+          <span class="label">dias</span>
+        </div>
+        <div class="range">
+          <span>Min: {{ overview.tempoMedioMatricula.minimo }} dias</span>
+          <span>Máx: {{ overview.tempoMedioMatricula.maximo }} dias</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nível de Engajamento -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Nível de Engajamento</h3>
+        <span class="score">{{ overview.nivelEngajamento.score }}%</span>
+      </div>
+      <div class="card-body">
+        <p class="categoria">{{ overview.nivelEngajamento.categoria }}</p>
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="overview.nivelEngajamento.score"></div>
+        </div>
+        <span class="trend" [ngClass]="overview.nivelEngajamento.tendencia === 'crescente' ? 'positive' : 'caution'">
+          {{ getTendenciaIcone(overview.nivelEngajamento.tendencia) }} {{ overview.nivelEngajamento.tendencia | titlecase }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Status do Planejamento -->
+    <div class="card planning-card">
+      <div class="card-header">
+        <h3>Status do Planejamento Estratégico</h3>
+        <span class="badge" [ngClass]="getStatusClasse(overview.statusPlanejamento.statusGeral)">
+          {{ overview.statusPlanejamento.statusGeral | titlecase }}
+        </span>
+      </div>
+      <div class="card-body">
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="overview.statusPlanejamento.percentualConclusao"></div>
+        </div>
+        <p class="percentage">{{ overview.statusPlanejamento.percentualConclusao }}% Concluído</p>
+        <div class="stats-grid">
+          <div class="stat">
+            <span class="label">Metas</span>
+            <span class="value">{{ overview.statusPlanejamento.metasAlcancadas }}/{{ overview.statusPlanejamento.metasAcordadas }}</span>
+          </div>
+          <div class="stat">
+            <span class="label">Em Atraso</span>
+            <span class="value error">{{ overview.statusPlanejamento.emAtraso }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="last-updated">
+    <small>Última atualização: {{ overview.ultimaAtualizacao | date:'dd/MM/yyyy HH:mm' }}</small>
+  </footer>
+</div>

@@ -1,1 +1,108 @@
-<p>pessoas works!</p>
+<app-pessoas-skeleton *ngIf="loading$ | async"></app-pessoas-skeleton>
+
+<div class="pessoas" *ngIf="!(loading$ | async) && (indicadores$ | async) as indicadores">
+  <header class="page-header">
+    <h1>Gestão de Pessoas</h1>
+    <p class="subtitle">Indicadores de desempenho e engajamento</p>
+  </header>
+
+  <!-- KPIs Principais -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <h3>Total de Docentes</h3>
+      <span class="value">{{ indicadores.totalDocentes }}</span>
+    </div>
+    <div class="kpi-card">
+      <h3>Total Administrativos</h3>
+      <span class="value">{{ indicadores.totalAdministrativos }}</span>
+    </div>
+    <div class="kpi-card caution">
+      <h3>Taxa de Turnover</h3>
+      <span class="value">{{ indicadores.taxaTurnover }}%</span>
+    </div>
+    <div class="kpi-card">
+      <h3>Média de Desempenho</h3>
+      <span class="value">{{ indicadores.mediaDesempenho | number:'1.1-1' }}%</span>
+    </div>
+  </div>
+
+  <!-- Grádico de Distribuição de Avaliações -->
+  <div class="card">
+    <h2>Distribuição de Avaliações</h2>
+    <div class="avaliacoes-grid">
+      <div class="avaliacao-item">
+        <span class="label">Excelente</span>
+        <span class="count positive">{{ indicadores.distribuicaoAvaliacao.excelente }}</span>
+      </div>
+      <div class="avaliacao-item">
+        <span class="label">Ótimo</span>
+        <span class="count positive">{{ indicadores.distribuicaoAvaliacao.otimo }}</span>
+      </div>
+      <div class="avaliacao-item">
+        <span class="label">Bom</span>
+        <span class="count neutral">{{ indicadores.distribuicaoAvaliacao.bom }}</span>
+      </div>
+      <div class="avaliacao-item">
+        <span class="label">Atenção</span>
+        <span class="count caution">{{ indicadores.distribuicaoAvaliacao.atencao }}</span>
+      </div>
+      <div class="avaliacao-item">
+        <span class="label">Crítico</span>
+        <span class="count critical">{{ indicadores.distribuicaoAvaliacao.critico }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Evolução Mensal -->
+  <div class="card">
+    <h2>Evolução Mensal</h2>
+    <div class="evolucao-items">
+      <div class="evolucao-item" *ngFor="let mes of indicadores.evolucaoMensual">
+        <span class="mes">{{ mes.mes }}</span>
+        <div class="metrics">
+          <div class="metric">
+            <span class="label">Desempenho</span>
+            <span class="value">{{ mes.desempenho }}%</span>
+          </div>
+          <div class="metric">
+            <span class="label">Engajamento</span>
+            <span class="value">{{ mes.engajamento }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de Pessoas -->
+  <section class="pessoas-section" *ngIf="pessoas$ | async as pessoas">
+    <h2>Colaboradores</h2>
+    <div class="pessoas-list">
+      <div class="pessoa-card" *ngFor="let pessoa of pessoas">
+        <div class="pessoa-header">
+          <div>
+            <h3>{{ pessoa.nome }}</h3>
+            <p class="tipo">{{ pessoa.tipo | titlecase }} • {{ pessoa.departamento }}</p>
+          </div>
+          <span class="badge" [ngClass]="getAvaliacaoClasse(pessoa.avaliacao)">{{ pessoa.avaliacao | titlecase }}</span>
+        </div>
+        
+        <div class="pessoa-metrics">
+          <div class="metric">
+            <span class="label">Desempenho</span>
+            <span class="value">{{ pessoa.desempenho }}%</span>
+            <div class="progress-bar">
+              <div class="progress" [style.width.%]="pessoa.desempenho"></div>
+            </div>
+          </div>
+          <div class="metric">
+            <span class="label">Engajamento</span>
+            <span class="value">{{ pessoa.engajamento }}%</span>
+            <div class="progress-bar">
+              <div class="progress" [style.width.%]="pessoa.engajamento"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

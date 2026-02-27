@@ -1,1 +1,74 @@
-<p>processos works!</p>
+<app-processos-skeleton *ngIf="loading$ | async"></app-processos-skeleton>
+
+<div class="processos" *ngIf="!(loading$ | async) && (analytics$ | async) as analytics">
+  <header class="page-header">
+    <h1>Processos Administrativos</h1>
+    <p class="subtitle">Análise e monitoramento de processos da universidade</p>
+  </header>
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <h3>Total de Processos</h3>
+      <span class="value">{{ analytics.totalProcessos }}</span>
+    </div>
+    <div class="kpi-card" [ngClass]="analytics.processosEficientes > 10 ? 'positive' : 'neutral'">
+      <h3>Eficientes</h3>
+      <span class="value">{{ analytics.processosEficientes }}</span>
+    </div>
+    <div class="kpi-card" [ngClass]="analytics.processosAtencao > 5 ? 'caution' : 'neutral'">
+      <h3>Atenção</h3>
+      <span class="value">{{ analytics.processosAtencao }}</span>
+    </div>
+    <div class="kpi-card" [ngClass]="analytics.processosCriticos > 0 ? 'critical' : 'positive'">
+      <h3>Críticos</h3>
+      <span class="value">{{ analytics.processosCriticos }}</span>
+    </div>
+  </div>
+
+  <!-- Tendência -->
+  <div class="info-box" [ngClass]="'tendencia-' + analytics.tendenciaGeral">
+    <strong>Tendência Geral:</strong> {{ analytics.tendenciaGeral | titlecase }}
+    <span class="tempo-medio">Tempo Médio: {{ analytics.tempoMedioGeral | number:'1.1-1' }} dias</span>
+  </div>
+
+  <!-- Lista de Processos -->
+  <section class="processos-section" *ngIf="processos$ | async as processos">
+    <h2>Detalhe dos Processos</h2>
+    <div class="processos-list">
+      <div class="processo-card" *ngFor="let processo of processos">
+        <div class="processo-header">
+          <h3>{{ processo.nome }}</h3>
+          <span class="badge" [ngClass]="'status-' + processo.status">{{ processo.status | titlecase }}</span>
+        </div>
+        <p class="descricao">{{ processo.descricao }}</p>
+        
+        <div class="processo-info">
+          <div class="info-item">
+            <span class="label">Departamento</span>
+            <span class="value">{{ processo.departamento }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Tempo Médio</span>
+            <span class="value">{{ processo.tempMedioExecucao }} dias</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Eficiência</span>
+            <span class="value" [ngClass]="getEficienciaClasse(processo.eficiencia)">{{ processo.eficiencia }}%</span>
+          </div>
+        </div>
+
+        <div class="eficiencia-bar">
+          <div class="progress" [style.width.%]="processo.eficiencia"></div>
+        </div>
+
+        <div class="gargalos" *ngIf="processo.gargalos.length > 0">
+          <strong>Gargalos Identificados:</strong>
+          <ul>
+            <li *ngFor="let gargalo of processo.gargalos">{{ gargalo }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

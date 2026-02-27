@@ -1,1 +1,113 @@
-<p>planejamento works!</p>
+<app-planejamento-skeleton *ngIf="loading$ | async"></app-planejamento-skeleton>
+
+<div class="planejamento" *ngIf="!(loading$ | async) && (planejamento$ | async) as planejamento">
+  <header class="page-header">
+    <h1>Planejamento Estratégico</h1>
+    <p class="subtitle">{{ planejamento.titulo }} ({{ planejamento.periodo.dataInicio | date:'yyyy' }} - {{ planejamento.periodo.dataFim | date:'yyyy' }})</p>
+  </header>
+
+  <!-- Status Geral -->
+  <div class="status-geral" [ngClass]="getStatusClasse(planejamento.statusGeral)">
+    <h2>Status Geral</h2>
+    <div class="progress-bar">
+      <div class="progress" [style.width.%]="planejamento.percentualConclusao"></div>
+    </div>
+    <p class="percentage">{{ planejamento.percentualConclusao }}% Concluído</p>
+  </div>
+
+  <!-- Objetivos Estratégicos -->
+  <section class="objetivos-section">
+    <h2>Objetivos Estratégicos</h2>
+    <div class="objetivos-list">
+      <div class="objetivo-card" *ngFor="let objetivo of planejamento.objetivos">
+        <div class="objetivo-header">
+          <h3>{{ objetivo.titulo }}</h3>
+          <span class="badge" [ngClass]="getStatusClasse(objetivo.status)">{{ objetivo.status | titlecase }}</span>
+        </div>
+        <p class="descricao">{{ objetivo.descricao }}</p>
+        <p class="responsavel"><strong>Responsável:</strong> {{ objetivo.responsavel }}</p>
+        
+        <div class="objetivo-progress">
+          <div class="progress-info">
+            <span class="label">Progresso</span>
+            <span class="value">{{ objetivo.percentualConclusao }}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="objetivo.percentualConclusao"></div>
+          </div>
+        </div>
+
+        <!-- Metas do Objetivo -->
+        <div class="metas" *ngIf="objetivo.metas.length > 0">
+          <h4>Metas</h4>
+          <div class="metas-list">
+            <div class="meta-item" *ngFor="let meta of objetivo.metas">
+              <div class="meta-info">
+                <span class="titulo">{{ meta.titulo }}</span>
+                <span class="status" [ngClass]="getStatusClasse(meta.status)">{{ meta.status | titlecase }}</span>
+              </div>
+              <div class="meta-progress">
+                <span class="resultado">{{ meta.valorAlcancado }}/{{ meta.valorEsperado }} {{ meta.unidade }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SWOT -->
+  <section class="swot-section">
+    <h2>Análise SWOT</h2>
+    <div class="swot-grid">
+      <div class="swot-card forcas">
+        <h3>Forças</h3>
+        <ul>
+          <li *ngFor="let forca of planejamento.swot.forcas">{{ forca }}</li>
+        </ul>
+      </div>
+      <div class="swot-card fraquezas">
+        <h3>Fraquezas</h3>
+        <ul>
+          <li *ngFor="let fraqueza of planejamento.swot.fraquezas">{{ fraqueza }}</li>
+        </ul>
+      </div>
+      <div class="swot-card oportunidades">
+        <h3>Oportunidades</h3>
+        <ul>
+          <li *ngFor="let oportunidade of planejamento.swot.oportunidades">{{ oportunidade }}</li>
+        </ul>
+      </div>
+      <div class="swot-card ameacas">
+        <h3>Ameaças</h3>
+        <ul>
+          <li *ngFor="let ameaca of planejamento.swot.ameacas">{{ ameaca }}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Matriz de Riscos -->
+  <section class="riscos-section" *ngIf="riscos$ | async as riscos">
+    <h2>Matriz de Riscos</h2>
+    <div class="riscos-list">
+      <div class="risco-card" *ngFor="let risco of riscos" [ngClass]="getRiscoClasse(risco.nivel)">
+        <div class="risco-header">
+          <h4>{{ risco.titulo }}</h4>
+          <span class="nivel">{{ risco.nivel | titlecase }}</span>
+        </div>
+        <div class="risco-grid">
+          <div class="metric">
+            <span class="label">Probabilidade</span>
+            <span class="value">{{ risco.probabilidade }}%</span>
+          </div>
+          <div class="metric">
+            <span class="label">Impacto</span>
+            <span class="value">{{ risco.impacto }}%</span>
+          </div>
+        </div>
+        <p class="mitigacao"><strong>Mitigação:</strong> {{ risco.mitigacao }}</p>
+      </div>
+    </div>
+  </section>
+</div>
