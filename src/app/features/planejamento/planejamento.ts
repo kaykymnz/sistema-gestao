@@ -1,15 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { PlanejamentoService } from '../../core/services';
 import { PlanejamentoEstrategico, MatrizRisco } from '../../core/models';
-import { PlanejamentoSkeletonComponent } from '../../shared/components/skeletons/planejamento-skeleton';
 
 @Component({
   selector: 'app-planejamento',
   standalone: true,
-  imports: [CommonModule, PlanejamentoSkeletonComponent],
+  imports: [CommonModule],
   templateUrl: './planejamento.html',
   styleUrl: './planejamento.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -17,15 +15,11 @@ import { PlanejamentoSkeletonComponent } from '../../shared/components/skeletons
 export class Planejamento implements OnInit {
   planejamento$!: Observable<PlanejamentoEstrategico>;
   riscos$!: Observable<MatrizRisco[]>;
-  loading$ = new BehaviorSubject(true);
 
   constructor(private planejamentoService: PlanejamentoService) {}
 
   ngOnInit(): void {
-    this.loading$.next(true);
-    this.planejamento$ = this.planejamentoService.getPlanejamento().pipe(
-      tap(() => this.loading$.next(false))
-    );
+    this.planejamento$ = this.planejamentoService.getPlanejamento();
     this.riscos$ = this.planejamentoService.getRiscos();
   }
 

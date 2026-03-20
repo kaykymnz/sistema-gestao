@@ -1,0 +1,44 @@
+{
+  "funcionarios": [
+    {
+      "id": 1,
+      "nome": "Carlos Silva",
+      "funcao": "Professor",
+      "departamento": "Engenharia de Software",
+      "dataAdmissao": "2015-03-15",
+      "dataUltimaPromocao": "2021-07-10"
+    },
+    {
+      "id": 2,
+      "nome": "Ana Costa",
+      "funcao": "Coordenadora Acadêmica",
+      "departamento": "Ensino",
+      "dataAdmissao": "2010-08-20",
+      "dataUltimaPromocao": "2020-11-05"
+    },
+    {
+      "id": 3,
+      "nome": "João Oliveira",
+      "funcao": "Zelador",
+      "departamento": "Infraestrutura",
+      "dataAdmissao": "2018-01-10",
+      "dataUltimaPromocao": "2022-05-15"
+    },
+    {
+      "id": 4,
+      "nome": "Maria Santos",
+      "funcao": "Professora",
+      "departamento": "Administração",
+      "dataAdmissao": "2012-06-01",
+      "dataUltimaPromocao": "2019-09-20"
+    },
+    {
+      "id": 5,
+      "nome": "Pedro Martins",
+      "funcao": "Técnico Administrativo",
+      "departamento": "Recursos Humanos",
+      "dataAdmissao": "2019-02-15",
+      "dataUltimaPromocao": "2023-03-10"
+    }
+  ]
+}

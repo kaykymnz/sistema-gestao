@@ -1,3 +1,12 @@
+export interface FuncionarioResponse {
+  id: number;
+  nome: string;
+  funcao: string;
+  departamento: string;
+  dataAdmissao: string;
+  dataUltimaPromocao: string;
+}
+
 export interface PessoasIndicadores {
   totalDocentes: number;
   totalAdministrativos: number;

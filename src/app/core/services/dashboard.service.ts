@@ -1,49 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { DashboardOverview } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
-  constructor() {}
+  private apiUrl = 'http://localhost:8080/api/dashboard';
+
+  constructor(private http: HttpClient) {}
 
   getOverview(): Observable<DashboardOverview> {
-    const mockData: DashboardOverview = {
-      indiceMaturidade: {
-        score: 72,
-        niveau: 'operacional',
-        categoria: 'Processos Acadêmicos',
-        descricao: 'Organização em nível operacional com processos definidos'
-      },
-      taxaRotatividade: {
-        percentual: 8.5,
-        tendencia: 'estavel',
-        docentes: 12,
-        administrativos: 8
-      },
-      tempoMedioMatricula: {
-        diasMedio: 6.2,
-        minimo: 2,
-        maximo: 14,
-        tendencia: 'decrescente'
-      },
-      nivelEngajamento: {
-        score: 78,
-        categoria: 'Elevado',
-        tendencia: 'crescente'
-      },
-      statusPlanejamento: {
-        percentualConclusao: 65,
-        metasAcordadas: 24,
-        metasAlcancadas: 18,
-        emAtraso: 3,
-        statusGeral: 'em_dia'
-      },
-      ultimaAtualizacao: new Date()
-    };
-
-    return of(mockData).pipe(delay(800));
+    return this.http.get<DashboardOverview>(this.apiUrl);
   }
 }

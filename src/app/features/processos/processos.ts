@@ -1,15 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ProcessoService } from '../../core/services';
 import { Processo, ProcessoAnalytics } from '../../core/models';
-import { ProcessosSkeletonComponent } from '../../shared/components/skeletons/processos-skeleton';
 
 @Component({
   selector: 'app-processos',
   standalone: true,
-  imports: [CommonModule, ProcessosSkeletonComponent],
+  imports: [CommonModule],
   templateUrl: './processos.html',
   styleUrl: './processos.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -17,15 +15,11 @@ import { ProcessosSkeletonComponent } from '../../shared/components/skeletons/pr
 export class Processos implements OnInit {
   processos$!: Observable<Processo[]>;
   analytics$!: Observable<ProcessoAnalytics>;
-  loading$ = new BehaviorSubject(true);
 
   constructor(private processoService: ProcessoService) {}
 
   ngOnInit(): void {
-    this.loading$.next(true);
-    this.analytics$ = this.processoService.getAnalytics().pipe(
-      tap(() => this.loading$.next(false))
-    );
+    this.analytics$ = this.processoService.getAnalytics();
     this.processos$ = this.processoService.getProcessos();
   }
 

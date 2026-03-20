@@ -1,3 +1,96 @@
 <div class="topbar">
-  <p>Bem-vindo à Nova Horizonte Gestão</p>
+  <!-- Left Section: Search -->
+  <div class="topbar-left">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input 
+        type="text" 
+        placeholder="Buscar..."
+        (input)="onSearch($event.target.value)"
+        class="search-input"
+      >
+    </div>
+  </div>
+
+  <!-- Center: Spacer -->
+  <div class="topbar-spacer"></div>
+
+  <!-- Right Section: Notifications & Profile -->
+  <div class="topbar-right" *ngIf="userProfile$ | async as profile">
+    <!-- Notifications (Optional) -->
+    <button class="notification-btn" [matMenuTriggerFor]="notificationMenu">
+      <mat-icon>notifications_none</mat-icon>
+      <span class="notification-badge">3</span>
+    </button>
+
+    <!-- User Profile Card -->
+    <div class="profile-section">
+      <button class="profile-btn" [matMenuTriggerFor]="profileMenu">
+        <img 
+          [src]="profile.avatar || 'https://via.placeholder.com/40'" 
+          [alt]="profile.name"
+          class="avatar"
+        >
+        <div class="profile-text">
+          <span class="profile-name">{{ profile.name }}</span>
+          <span class="profile-role">{{ profile.role }}</span>
+        </div>
+        <mat-icon class="dropdown-icon">expand_more</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>
+
+<!-- Profile Menu -->
+<mat-menu #profileMenu="matMenu">
+  <div class="profile-menu-header" *ngIf="userProfile$ | async as profile">
+    <img 
+      [src]="profile.avatar || 'https://via.placeholder.com/60'" 
+      [alt]="profile.name"
+      class="menu-avatar"
+    >
+    <div class="menu-user-info">
+      <p class="menu-name">{{ profile.name }}</p>
+      <p class="menu-email">{{ profile.email }}</p>
+    </div>
+  </div>
+  
+  <button mat-menu-item (click)="onAction('profile')">
+    <mat-icon>person</mat-icon>
+    <span>Perfil</span>
+  </button>
+  <button mat-menu-item (click)="onAction('settings')">
+    <mat-icon>settings</mat-icon>
+    <span>Configurações</span>
+  </button>
+  <button mat-menu-item (click)="onAction('help')">
+    <mat-icon>help_outline</mat-icon>
+    <span>Ajuda</span>
+  </button>
+  
+  <button mat-menu-item (click)="onAction('logout')" class="logout-item">
+    <mat-icon>power_settings_new</mat-icon>
+    <span>Sair</span>
+  </button>
+</mat-menu>
+
+<!-- Notifications Menu -->
+<mat-menu #notificationMenu="matMenu">
+  <button mat-menu-item disabled>
+    <mat-icon>info</mat-icon>
+    <span>Você tem 3 notificações</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>check_circle</mat-icon>
+    <span>Processo finalizado</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>warning</mat-icon>
+    <span>Ação pendente</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>info</mat-icon>
+    <span>Nova atualização</span>
+  </button>
+</mat-menu>
+

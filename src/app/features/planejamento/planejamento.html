@@ -1,6 +1,4 @@
-<app-planejamento-skeleton *ngIf="loading$ | async"></app-planejamento-skeleton>
-
-<div class="planejamento" *ngIf="!(loading$ | async) && (planejamento$ | async) as planejamento">
+<div class="planejamento" *ngIf="(planejamento$ | async) as planejamento">
   <header class="page-header">
     <h1>Planejamento Estratégico</h1>
     <p class="subtitle">{{ planejamento.titulo }} ({{ planejamento.periodo.dataInicio | date:'yyyy' }} - {{ planejamento.periodo.dataFim | date:'yyyy' }})</p>

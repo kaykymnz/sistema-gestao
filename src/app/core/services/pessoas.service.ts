@@ -1,133 +1,196 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { PessoasIndicadores, Pessoa, AnaliseDesempenho } from '../models';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map, tap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { PessoasIndicadores, Pessoa, AnaliseDesempenho, FuncionarioResponse } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PessoasService {
-  constructor() {}
+  private apiUrl = 'http://localhost:8080/api/funcionarios';
+  private pessoasCache$ = new BehaviorSubject<Pessoa[]>([]);
 
-  getIndicadores(): Observable<PessoasIndicadores> {
-    const mockData: PessoasIndicadores = {
-      totalDocentes: 124,
-      totalAdministrativos: 68,
-      taxaTurnover: 8.2,
-      mediaDesempenho: 76.5,
-      mediaEngajamento: 74.3,
-      evolucaoMensual: [
-        { mes: 'Dezembro', desempenho: 72, engajamento: 70, turnover: 9.5 },
-        { mes: 'Janeiro', desempenho: 74, engajamento: 71, turnover: 8.8 },
-        { mes: 'Fevereiro', desempenho: 76.5, engajamento: 74.3, turnover: 8.2 }
-      ],
-      distribuicaoAvaliacao: {
-        excelente: 18,
-        otimo: 56,
-        bom: 89,
-        atencao: 22,
-        critico: 7
-      }
+  constructor(private http: HttpClient) {}
+
+  /**
+   * Mapeia FuncionarioResponse para o modelo Pessoa
+   */
+  private mapFuncionarioToPessoa(funcionario: FuncionarioResponse): Pessoa {
+    // Mapeamento de função para tipo (docente ou administrativo)
+    const tipo = this.determinaTipo(funcionario.funcao);
+    
+    // Gera valores de desempenho e engajamento de forma determinística
+    const desempenho = this.calcularDesempenho(funcionario);
+    const engajamento = this.calcularEngajamento(funcionario);
+    
+    return {
+      id: funcionario.id.toString(),
+      nome: funcionario.nome,
+      tipo,
+      departamento: funcionario.departamento,
+      desempenho,
+      engajamento,
+      avaliacao: this.calcularAvaliacao(desempenho),
+      dataAdmissao: new Date(funcionario.dataAdmissao),
+      ultimaAvaliacao: new Date(funcionario.dataUltimaPromocao)
     };
-
-    return of(mockData).pipe(delay(700));
   }
 
+  /**
+   * Determina o tipo de funcionário baseado na função
+   */
+  private determinaTipo(funcao: string): 'docente' | 'administrativo' {
+    const funcaoLower = funcao.toLowerCase();
+    const docentes = ['professor', 'professora', 'coordenadora acadêmica', 'coordenador acadêmico', 'reitor', 'diretor'];
+    
+    return docentes.some(d => funcaoLower.includes(d)) ? 'docente' : 'administrativo';
+  }
+
+  /**
+   * Calcula o desempenho baseado na antiguidade e promoção
+   */
+  private calcularDesempenho(funcionario: FuncionarioResponse): number {
+    const admissao = new Date(funcionario.dataAdmissao);
+    const ultimaPromocao = new Date(funcionario.dataUltimaPromocao);
+    const hoje = new Date();
+    
+    // Anos de serviço
+    const anosServico = (hoje.getTime() - admissao.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
+    
+    // Tempo desde última promoção (em anos)
+    const tempoPromocao = (hoje.getTime() - ultimaPromocao.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
+    
+    // Base: 50% da antiguidade (máx 50 pontos)
+    let desempenho = Math.min(anosServico * 4, 50);
+    
+    // Bônus: 50 pontos se teve promoção recente (últimos 2 anos)
+    if (tempoPromocao < 2) {
+      desempenho += 50;
+    } else {
+      // Redução progressiva se passou muito tempo sem promoção
+      desempenho += Math.max(20 - (tempoPromocao * 5), 5);
+    }
+    
+    return Math.min(Math.round(desempenho), 100);
+  }
+
+  /**
+   * Calcula engajamento baseado no tempo de serviço
+   */
+  private calcularEngajamento(funcionario: FuncionarioResponse): number {
+    const admissao = new Date(funcionario.dataAdmissao);
+    const hoje = new Date();
+    
+    const anosServico = (hoje.getTime() - admissao.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
+    
+    // Engajamento começa alto e decresce levemente com os anos
+    let engajamento = 85 - (anosServico * 2.5);
+    
+    return Math.min(Math.max(Math.round(engajamento), 30), 100);
+  }
+
+  /**
+   * Calcula a avaliação baseada no desempenho
+   */
+  private calcularAvaliacao(desempenho: number): 'excelente' | 'otimo' | 'bom' | 'atencao' | 'critico' {
+    if (desempenho >= 90) return 'excelente';
+    if (desempenho >= 80) return 'otimo';
+    if (desempenho >= 65) return 'bom';
+    if (desempenho >= 50) return 'atencao';
+    return 'critico';
+  }
+
+  /**
+   * Retorna a lista de pessoas do endpoint
+   */
   getPessoas(): Observable<Pessoa[]> {
-    const mockData: Pessoa[] = [
-      {
-        id: '1',
-        nome: 'Dr. Carlos Silva',
-        tipo: 'docente',
-        departamento: 'Engenharia',
-        desempenho: 92,
-        engajamento: 88,
-        avaliacao: 'excelente',
-        dataAdmissao: new Date('2018-03-15'),
-        ultimaAvaliacao: new Date('2026-01-10')
-      },
-      {
-        id: '2',
-        nome: 'Profa. Ana Costa',
-        tipo: 'docente',
-        departamento: 'Gestão',
-        desempenho: 85,
-        engajamento: 82,
-        avaliacao: 'otimo',
-        dataAdmissao: new Date('2019-08-20'),
-        ultimaAvaliacao: new Date('2026-01-15')
-      },
-      {
-        id: '3',
-        nome: 'Roberto Mendes',
-        tipo: 'administrativo',
-        departamento: 'Financeiro',
-        desempenho: 78,
-        engajamento: 75,
-        avaliacao: 'bom',
-        dataAdmissao: new Date('2020-05-10'),
-        ultimaAvaliacao: new Date('2026-02-01')
-      },
-      {
-        id: '4',
-        nome: 'Maria Santos',
-        tipo: 'administrativo',
-        departamento: 'RH',
-        desempenho: 55,
-        engajamento: 48,
-        avaliacao: 'atencao',
-        dataAdmissao: new Date('2023-01-02'),
-        ultimaAvaliacao: new Date('2026-02-05')
-      },
-      {
-        id: '5',
-        nome: 'Prof. João Oliveira',
-        tipo: 'docente',
-        departamento: 'Humanas',
-        desempenho: 65,
-        engajamento: 52,
-        avaliacao: 'critico',
-        dataAdmissao: new Date('2017-02-28'),
-        ultimaAvaliacao: new Date('2026-02-10')
-      }
+    return this.http.get<any>(this.apiUrl).pipe(
+      map(response => {
+        // Se a resposta é um objeto com propriedade 'funcionarios', extrai o array
+        const funcionarios = Array.isArray(response) ? response : (response?.funcionarios || []);
+        return funcionarios.map((f: FuncionarioResponse) => this.mapFuncionarioToPessoa(f));
+      }),
+      tap(pessoas => this.pessoasCache$.next(pessoas)),
+      catchError(error => {
+        console.error('Erro ao buscar funcionários:', error);
+        return of([]);
+      })
+    );
+  }
+
+  /**
+   * Gera indicadores baseado nos dados reais
+   */
+  getIndicadores(): Observable<PessoasIndicadores> {
+    return this.getPessoas().pipe(
+      map(pessoas => this.gerarIndicadores(pessoas))
+    );
+  }
+
+  /**
+   * Calcula os indicadores a partir da lista de pessoas
+   */
+  private gerarIndicadores(pessoas: Pessoa[]): PessoasIndicadores {
+    const totalDocentes = pessoas.filter(p => p.tipo === 'docente').length;
+    const totalAdministrativos = pessoas.filter(p => p.tipo === 'administrativo').length;
+    
+    const mediaDesempenho = pessoas.length > 0
+      ? Math.round(pessoas.reduce((sum, p) => sum + p.desempenho, 0) / pessoas.length)
+      : 0;
+    
+    const mediaEngajamento = pessoas.length > 0
+      ? Math.round(pessoas.reduce((sum, p) => sum + p.engajamento, 0) / pessoas.length)
+      : 0;
+
+    // Calcula distribuição de avaliações
+    const distribuicaoAvaliacao = {
+      excelente: pessoas.filter(p => p.avaliacao === 'excelente').length,
+      otimo: pessoas.filter(p => p.avaliacao === 'otimo').length,
+      bom: pessoas.filter(p => p.avaliacao === 'bom').length,
+      atencao: pessoas.filter(p => p.avaliacao === 'atencao').length,
+      critico: pessoas.filter(p => p.avaliacao === 'critico').length
+    };
+
+    // Calcula taxa de turnover simulada (baseada em críticos)
+    const taxaTurnover = Math.round((distribuicaoAvaliacao.critico / pessoas.length) * 100 * 10) / 10;
+
+    // Evolução mensal (simula últimos 3 meses)
+    const evolucaoMensual = [
+      { mes: 'Dezembro', desempenho: Math.round(mediaDesempenho * 0.92), engajamento: Math.round(mediaEngajamento * 0.93), turnover: taxaTurnover * 1.2 },
+      { mes: 'Janeiro', desempenho: Math.round(mediaDesempenho * 0.97), engajamento: Math.round(mediaEngajamento * 0.96), turnover: taxaTurnover * 1.1 },
+      { mes: 'Fevereiro', desempenho: mediaDesempenho, engajamento: mediaEngajamento, turnover: taxaTurnover }
     ];
 
-    return of(mockData).pipe(delay(600));
+    return {
+      totalDocentes,
+      totalAdministrativos,
+      taxaTurnover,
+      mediaDesempenho,
+      mediaEngajamento,
+      evolucaoMensual,
+      distribuicaoAvaliacao
+    };
   }
 
   getAnaliseDesempenho(): Observable<AnaliseDesempenho> {
-    const mockData: AnaliseDesempenho = {
-      periodo: 'Janeiro a Fevereiro 2026',
-      mediaGeral: 76.5,
-      melhoresDesempenh: [
-        {
-          id: '1',
-          nome: 'Dr. Carlos Silva',
-          tipo: 'docente',
-          departamento: 'Engenharia',
-          desempenho: 92,
-          engajamento: 88,
-          avaliacao: 'excelente',
-          dataAdmissao: new Date('2018-03-15'),
-          ultimaAvaliacao: new Date('2026-01-10')
-        }
-      ],
-      atencao: [
-        {
-          id: '4',
-          nome: 'Maria Santos',
-          tipo: 'administrativo',
-          departamento: 'RH',
-          desempenho: 55,
-          engajamento: 48,
-          avaliacao: 'atencao',
-          dataAdmissao: new Date('2023-01-02'),
-          ultimaAvaliacao: new Date('2026-02-05')
-        }
-      ],
-      tendencia: 'crescente'
-    };
+    return this.getPessoas().pipe(
+      map(pessoas => {
+        // Ordena por desempenho para encontrar melhores e com atenção
+        const pessoasOrdenadas = [...pessoas].sort((a, b) => b.desempenho - a.desempenho);
+        
+        const melhoresDesempenh = pessoasOrdenadas.slice(0, 5);
+        const atencao = pessoasOrdenadas.filter(p => p.avaliacao === 'atencao' || p.avaliacao === 'critico');
 
-    return of(mockData).pipe(delay(500));
+        return {
+          periodo: 'Janeiro a Fevereiro 2026',
+          mediaGeral: Math.round(pessoas.reduce((sum, p) => sum + p.desempenho, 0) / pessoas.length),
+          melhoresDesempenh,
+          atencao,
+          tendencia: 'crescente'
+        };
+      })
+    );
   }
 }

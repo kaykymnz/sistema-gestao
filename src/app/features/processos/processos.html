@@ -1,6 +1,4 @@
-<app-processos-skeleton *ngIf="loading$ | async"></app-processos-skeleton>
-
-<div class="processos" *ngIf="!(loading$ | async) && (analytics$ | async) as analytics">
+<div class="processos" *ngIf="(analytics$ | async) as analytics">
   <header class="page-header">
     <h1>Processos Administrativos</h1>
     <p class="subtitle">Análise e monitoramento de processos da universidade</p>

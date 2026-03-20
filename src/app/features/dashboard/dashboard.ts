@@ -1,30 +1,24 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { DashboardService } from '../../core/services';
 import { DashboardOverview } from '../../core/models';
-import { DashboardSkeletonComponent } from '../../shared/components/skeletons/dashboard-skeleton';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, DashboardSkeletonComponent],
+  imports: [CommonModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Dashboard implements OnInit {
   overview$!: Observable<DashboardOverview>;
-  loading$ = new BehaviorSubject(true);
 
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    this.loading$.next(true);
-    this.overview$ = this.dashboardService.getOverview().pipe(
-      tap(() => this.loading$.next(false))
-    );
+    this.overview$ = this.dashboardService.getOverview();
   }
 
   getMaturidadeClasse(niveau: string): string {

@@ -1,15 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { RelatorioService } from '../../core/services';
 import { RelatorioInteligente, ParametrosGeracao } from '../../core/models';
-import { RelatoriosSkeletonComponent } from '../../shared/components/skeletons/relatorios-skeleton';
 
 @Component({
   selector: 'app-relatorios',
   standalone: true,
-  imports: [CommonModule, RelatoriosSkeletonComponent],
+  imports: [CommonModule],
   templateUrl: './relatorios.html',
   styleUrl: './relatorios.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -18,15 +16,11 @@ export class Relatorios implements OnInit {
   relatorios$!: Observable<RelatorioInteligente[]>;
   relatorioGerando$: Observable<RelatorioInteligente> | null = null;
   mostraFormulario = false;
-  loading$ = new BehaviorSubject(true);
 
   constructor(private relatorioService: RelatorioService) {}
 
   ngOnInit(): void {
-    this.loading$.next(true);
-    this.relatorios$ = this.relatorioService.getRelatorios().pipe(
-      tap(() => this.loading$.next(false))
-    );
+    this.relatorios$ = this.relatorioService.getRelatorios();
   }
 
   gerarRelatorio(): void {

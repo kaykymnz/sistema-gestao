@@ -1,0 +1,62 @@
+<div class="user-profile-card" *ngIf="userProfile">
+  <!-- Avatar e Info Básica -->
+  <div class="profile-header">
+    <img 
+      [src]="userProfile.avatar || 'https://via.placeholder.com/150'" 
+      [alt]="userProfile.name"
+      class="avatar"
+    >
+    <div class="user-info">
+      <h3 class="user-name">{{ userProfile.name }}</h3>
+      <p class="user-email">{{ userProfile.email }}</p>
+    </div>
+  </div>
+
+  <!-- Storage Info -->
+  <div class="storage-section" *ngIf="userProfile.storageUsed !== undefined">
+    <div class="storage-info">
+      <span class="storage-text">
+        {{ userProfile.storageUsed | number: '1.2-2' }} of {{ userProfile.storageLimit }} GB
+      </span>
+    </div>
+    <div class="storage-bar">
+      <div class="storage-used" [style.width.%]="storagePercentage"></div>
+    </div>
+  </div>
+
+  <!-- Upgrade Button -->
+  <button class="upgrade-btn">
+    <mat-icon>arrow_upward</mat-icon>
+    <span>Upgrade Plan</span>
+  </button>
+
+  <!-- Actions Menu -->
+  <div class="actions-section" *ngIf="userProfile.actions && userProfile.actions.length">
+    <div class="actions-title">Quick Actions</div>
+    <div class="actions-list">
+      <button 
+        *ngFor="let action of userProfile.actions" 
+        class="action-item"
+        (click)="onActionClick(action.action)"
+      >
+        <mat-icon>{{ action.icon }}</mat-icon>
+        <span>{{ action.label }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider"></div>
+
+  <!-- Settings e Logout -->
+  <div class="bottom-actions">
+    <button class="bottom-action-item">
+      <mat-icon>help_outline</mat-icon>
+      <span>Help & Support</span>
+    </button>
+    <button class="bottom-action-item logout">
+      <mat-icon>power_settings_new</mat-icon>
+      <span>Logout</span>
+    </button>
+  </div>
+</div>

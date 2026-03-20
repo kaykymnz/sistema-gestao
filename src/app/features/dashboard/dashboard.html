@@ -1,6 +1,4 @@
-<app-dashboard-skeleton *ngIf="loading$ | async"></app-dashboard-skeleton>
-
-<div class="dashboard" *ngIf="!(loading$ | async) && (overview$ | async) as overview">
+<div class="dashboard" *ngIf="(overview$ | async) as overview">
   <header class="page-header">
     <h1>Dashboard Estratégico</h1>
     <p class="subtitle">Visão consolidada dos indicadores da universidade</p>
