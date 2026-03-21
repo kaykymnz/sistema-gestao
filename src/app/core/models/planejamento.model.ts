@@ -49,3 +49,25 @@ export interface MatrizRisco {
   nivel: 'baixo' | 'medio' | 'alto' | 'critico';
   mitigacao: string;
 }
+
+export interface FiveW2H {
+  what: string;
+  why: string;
+  where: string;
+  when: string | Date;
+  who: string;
+  how: string;
+  howMuch: number;
+}
+
+export interface ProjetoPlanejamento {
+  id: number;
+  titulo: string;
+  status: string;
+  prioridade: string;
+  descricao: string;
+  responsavel: string;
+  dataCriacao: string | Date;
+  fiveW2H: FiveW2H;
+  oportunidadesMelhoriaIa: string[];
+}

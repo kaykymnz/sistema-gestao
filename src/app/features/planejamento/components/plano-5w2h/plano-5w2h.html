@@ -1,0 +1,105 @@
+<section class="fivewtwoh-section" aria-labelledby="fivewtwoh-title">
+  <div class="section-header">
+    <div>
+      <h2 id="fivewtwoh-title">Projetos com 5W2H</h2>
+      <p class="section-description">
+        Iniciativas vindas do backend de planejamento com o detalhamento 5W2H aninhado por projeto.
+      </p>
+    </div>
+    <span class="section-counter"
+      >{{ projetos.length }} {{ projetos.length === 1 ? 'projeto' : 'projetos' }}</span
+    >
+  </div>
+
+  <div class="empty-state" *ngIf="projetos.length === 0; else listaProjetos">
+    Nenhum projeto de planejamento com 5W2H disponível no momento.
+  </div>
+
+  <ng-template #listaProjetos>
+    <div class="fivewtwoh-list">
+      <article class="fivewtwoh-card" *ngFor="let projeto of projetos; trackBy: trackByProjeto">
+        <header class="card-header">
+          <div class="card-title-group">
+            <h3>{{ projeto.titulo }}</h3>
+            <p class="objetivo">{{ projeto.descricao }}</p>
+          </div>
+
+          <div class="badges">
+            <span class="badge" [ngClass]="getStatusClasse(projeto.status)">
+              {{ formatarTexto(projeto.status) }}
+            </span>
+            <span class="badge outline" [ngClass]="getPrioridadeClasse(projeto.prioridade)">
+              Prioridade {{ formatarTexto(projeto.prioridade) }}
+            </span>
+          </div>
+        </header>
+
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span class="label">Responsável</span>
+            <span class="value">{{ projeto.responsavel }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Criado em</span>
+            <span class="value">{{ formatarData(projeto.dataCriacao) }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Entrega prevista</span>
+            <span class="value">{{ formatarData(projeto.fiveW2H.when) }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Investimento</span>
+            <span class="value">{{
+              projeto.fiveW2H.howMuch | currency: 'BRL' : 'symbol' : '1.0-0' : 'pt-BR'
+            }}</span>
+          </div>
+        </div>
+
+        <div class="matrix-grid">
+          <div class="matrix-item">
+            <span class="matrix-label">What</span>
+            <p>{{ projeto.fiveW2H.what }}</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-label">Why</span>
+            <p>{{ projeto.fiveW2H.why }}</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-label">Where</span>
+            <p>{{ projeto.fiveW2H.where }}</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-label">When</span>
+            <p>{{ formatarData(projeto.fiveW2H.when) }}</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-label">Who</span>
+            <p>{{ projeto.fiveW2H.who }}</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-label">How</span>
+            <p>{{ projeto.fiveW2H.how }}</p>
+          </div>
+          <div class="matrix-item emphasis">
+            <span class="matrix-label">How much</span>
+            <p>{{ projeto.fiveW2H.howMuch | currency: 'BRL' : 'symbol' : '1.0-0' : 'pt-BR' }}</p>
+          </div>
+        </div>
+
+        <footer class="card-footer" *ngIf="projeto.oportunidadesMelhoriaIa.length > 0">
+          <div class="indicadores">
+            <span class="footer-label">Oportunidades de melhoria com IA</span>
+            <div class="indicator-list">
+              <span
+                class="indicator-pill"
+                *ngFor="let oportunidade of projeto.oportunidadesMelhoriaIa"
+              >
+                {{ oportunidade }}
+              </span>
+            </div>
+          </div>
+        </footer>
+      </article>
+    </div>
+  </ng-template>
+</section>

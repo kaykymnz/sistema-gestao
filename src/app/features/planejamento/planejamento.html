@@ -1,7 +1,10 @@
-<div class="planejamento" *ngIf="(planejamento$ | async) as planejamento">
+<div class="planejamento" *ngIf="planejamento$ | async as planejamento">
   <header class="page-header">
     <h1>Planejamento Estratégico</h1>
-    <p class="subtitle">{{ planejamento.titulo }} ({{ planejamento.periodo.dataInicio | date:'yyyy' }} - {{ planejamento.periodo.dataFim | date:'yyyy' }})</p>
+    <p class="subtitle">
+      {{ planejamento.titulo }} ({{ planejamento.periodo.dataInicio | date: 'yyyy' }} -
+      {{ planejamento.periodo.dataFim | date: 'yyyy' }})
+    </p>
   </header>
 
   <!-- Status Geral -->
@@ -20,11 +23,13 @@
       <div class="objetivo-card" *ngFor="let objetivo of planejamento.objetivos">
         <div class="objetivo-header">
           <h3>{{ objetivo.titulo }}</h3>
-          <span class="badge" [ngClass]="getStatusClasse(objetivo.status)">{{ objetivo.status | titlecase }}</span>
+          <span class="badge" [ngClass]="getStatusClasse(objetivo.status)">{{
+            objetivo.status | titlecase
+          }}</span>
         </div>
         <p class="descricao">{{ objetivo.descricao }}</p>
         <p class="responsavel"><strong>Responsável:</strong> {{ objetivo.responsavel }}</p>
-        
+
         <div class="objetivo-progress">
           <div class="progress-info">
             <span class="label">Progresso</span>
@@ -42,10 +47,14 @@
             <div class="meta-item" *ngFor="let meta of objetivo.metas">
               <div class="meta-info">
                 <span class="titulo">{{ meta.titulo }}</span>
-                <span class="status" [ngClass]="getStatusClasse(meta.status)">{{ meta.status | titlecase }}</span>
+                <span class="status" [ngClass]="getStatusClasse(meta.status)">{{
+                  meta.status | titlecase
+                }}</span>
               </div>
               <div class="meta-progress">
-                <span class="resultado">{{ meta.valorAlcancado }}/{{ meta.valorEsperado }} {{ meta.unidade }}</span>
+                <span class="resultado"
+                  >{{ meta.valorAlcancado }}/{{ meta.valorEsperado }} {{ meta.unidade }}</span
+                >
               </div>
             </div>
           </div>
@@ -53,6 +62,8 @@
       </div>
     </div>
   </section>
+
+  <app-plano-5w2h [projetos]="(projetosPlanejamento$ | async) ?? []"></app-plano-5w2h>
 
   <!-- SWOT -->
   <section class="swot-section">
