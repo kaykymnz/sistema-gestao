@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { ProjetoPlanejamento } from '../../../../core/models';
+import { PlanoAcao5W2H } from '../../../../core/models';
 
 @Component({
   selector: 'app-plano-5w2h',
@@ -11,14 +11,13 @@ import { ProjetoPlanejamento } from '../../../../core/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Plano5w2hComponent {
-  @Input({ required: true }) projetos: ProjetoPlanejamento[] = [];
+  @Input({ required: true }) planos: PlanoAcao5W2H[] = [];
 
-  trackByProjeto(index: number, projeto: ProjetoPlanejamento): number | string {
-    return projeto.id ?? `${projeto.titulo}-${index}`;
+  trackByPlano(index: number, plano: PlanoAcao5W2H): string {
+    return plano.id ?? `${plano.titulo}-${index}`;
   }
 
-  getStatusClasse(status?: string): string {
-    const normalizado = this.normalizarTexto(status);
+  getStatusClasse(status: string): string {
     const classes: Record<string, string> = {
       planejado: 'status-neutro',
       em_andamento: 'status-atencao',
@@ -26,21 +25,20 @@ export class Plano5w2hComponent {
       atrasado: 'status-critico',
     };
 
-    return classes[normalizado] ?? 'status-neutro';
+    return classes[status] ?? 'status-neutro';
   }
 
   getPrioridadeClasse(prioridade?: string): string {
-    const normalizado = this.normalizarTexto(prioridade);
     const classes: Record<string, string> = {
       baixa: 'status-positivo',
       media: 'status-atencao',
       alta: 'status-critico',
     };
 
-    return classes[normalizado] ?? 'status-neutro';
+    return prioridade ? (classes[prioridade] ?? 'status-neutro') : 'status-neutro';
   }
 
-  formatarData(valor?: string | Date): string {
+  formatarPrazo(valor?: string | Date): string {
     if (!valor) {
       return 'Não definido';
     }
@@ -49,24 +47,19 @@ export class Plano5w2hComponent {
     return Number.isNaN(data.getTime()) ? String(valor) : data.toLocaleDateString('pt-BR');
   }
 
+  getMoeda(moeda?: string): string {
+    return moeda || 'BRL';
+  }
+
   formatarTexto(valor?: string): string {
     if (!valor) {
       return 'Não informado';
     }
 
     return valor
-      .split(/[_\s]+/)
+      .split('_')
       .filter(Boolean)
-      .map((parte) => parte.charAt(0).toUpperCase() + parte.slice(1).toLowerCase())
+      .map((parte) => parte.charAt(0).toUpperCase() + parte.slice(1))
       .join(' ');
-  }
-
-  private normalizarTexto(valor?: string): string {
-    return (valor ?? '')
-      .normalize('NFD')
-      .replace(/[̀-ͯ]/g, '')
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, '_');
   }
 }

@@ -50,24 +50,24 @@ export interface MatrizRisco {
   mitigacao: string;
 }
 
-export interface FiveW2H {
-  what: string;
-  why: string;
-  where: string;
-  when: string | Date;
-  who: string;
-  how: string;
-  howMuch: number;
-}
-
-export interface ProjetoPlanejamento {
-  id: number;
+export interface PlanoAcao5W2H {
+  id: string;
   titulo: string;
-  status: string;
-  prioridade: string;
-  descricao: string;
+  objetivo?: string;
+  oQue: string;
+  porQue: string;
+  onde: string;
+  quando: string | Date;
+  quem: string;
+  como: string;
+  quanto: number;
   responsavel: string;
-  dataCriacao: string | Date;
-  fiveW2H: FiveW2H;
-  oportunidadesMelhoriaIa: string[];
+  prazo?: string | Date;
+  custoEstimado?: number;
+  moeda?: string;
+  prioridade?: 'baixa' | 'media' | 'alta';
+  status: 'planejado' | 'em_andamento' | 'concluido' | 'atrasado';
+  progresso?: number;
+  indicadores?: string[];
+  observacoes?: string;
 }

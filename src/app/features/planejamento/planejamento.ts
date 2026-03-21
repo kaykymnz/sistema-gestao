@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Plano5w2hComponent } from './components/plano-5w2h/plano-5w2h';
 import { Observable } from 'rxjs';
 import { PlanejamentoService } from '../../core/services';
-import { PlanejamentoEstrategico, MatrizRisco, ProjetoPlanejamento } from '../../core/models';
+import { PlanejamentoEstrategico, MatrizRisco, PlanoAcao5W2H } from '../../core/models';
 
 @Component({
   selector: 'app-planejamento',
@@ -16,14 +16,14 @@ import { PlanejamentoEstrategico, MatrizRisco, ProjetoPlanejamento } from '../..
 export class Planejamento implements OnInit {
   planejamento$!: Observable<PlanejamentoEstrategico>;
   riscos$!: Observable<MatrizRisco[]>;
-  projetosPlanejamento$!: Observable<ProjetoPlanejamento[]>;
+  planos5w2h$!: Observable<PlanoAcao5W2H[]>;
 
   constructor(private planejamentoService: PlanejamentoService) {}
 
   ngOnInit(): void {
     this.planejamento$ = this.planejamentoService.getPlanejamento();
     this.riscos$ = this.planejamentoService.getRiscos();
-    this.projetosPlanejamento$ = this.planejamentoService.getProjetosPlanejamento();
+    this.planos5w2h$ = this.planejamentoService.getPlanoAcao5W2H();
   }
 
   getStatusClasse(status: string): string {

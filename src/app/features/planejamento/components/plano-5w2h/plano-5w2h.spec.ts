@@ -12,7 +12,7 @@ describe('Plano5w2hComponent', () => {
 
     fixture = TestBed.createComponent(Plano5w2hComponent);
     component = fixture.componentInstance;
-    component.projetos = [];
+    component.planos = [];
     fixture.detectChanges();
   });
 
