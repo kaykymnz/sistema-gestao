@@ -1,0 +1,250 @@
+.fivewtwoh-section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: var(--color-text-primary);
+  }
+}
+
+.section-description {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin: 0;
+  max-width: 720px;
+}
+
+.section-counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.empty-state {
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  padding: 24px;
+  text-align: center;
+}
+
+.fivewtwoh-list {
+  display: grid;
+  gap: 20px;
+}
+
+.fivewtwoh-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.card-title-group {
+  h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .objetivo {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+
+  &.status-neutro {
+    background: #e0e7ff;
+    color: #3730a3;
+  }
+
+  &.status-atencao {
+    background: #fef3c7;
+    color: #b45309;
+  }
+
+  &.status-positivo {
+    background: #d1fae5;
+    color: #047857;
+  }
+
+  &.status-critico {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+
+  &.outline {
+    background: transparent;
+    border: 1px solid currentColor;
+  }
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.summary-item,
+.matrix-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--color-background);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+
+.label,
+.matrix-label,
+.footer-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.progress-wrapper {
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #10b981);
+  border-radius: inherit;
+}
+
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.matrix-item {
+  min-height: 110px;
+
+  p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--color-text-primary);
+  }
+
+  &.emphasis {
+    border: 1px solid rgba(59, 130, 246, 0.16);
+    background: rgba(59, 130, 246, 0.06);
+  }
+}
+
+.card-footer {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+  display: grid;
+  gap: 16px;
+}
+
+.indicator-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.indicator-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.observacoes {
+  p {
+    margin: 8px 0 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+}
+
+@media (max-width: 768px) {
+  .section-header,
+  .card-header {
+    flex-direction: column;
+  }
+
+  .badges {
+    justify-content: flex-start;
+  }
+
+  .fivewtwoh-card {
+    padding: 20px;
+  }
+}

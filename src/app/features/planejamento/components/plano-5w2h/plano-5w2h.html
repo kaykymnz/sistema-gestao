@@ -1,0 +1,129 @@
+<section class="fivewtwoh-section" aria-labelledby="fivewtwoh-title">
+  <div class="section-header">
+    <div>
+      <h2 id="fivewtwoh-title">Plano de Ação 5W2H</h2>
+      <p class="section-description">
+        Acompanhamento estruturado das iniciativas estratégicas com contexto, responsáveis, prazo e
+        investimento.
+      </p>
+    </div>
+    <span class="section-counter"
+      >{{ planos.length }} {{ planos.length === 1 ? 'iniciativa' : 'iniciativas' }}</span
+    >
+  </div>
+
+  <div class="empty-state" *ngIf="planos.length === 0; else listaPlanos">
+    Nenhum plano 5W2H disponível no momento.
+  </div>
+
+  <ng-template #listaPlanos>
+    <div class="fivewtwoh-list">
+      <article class="fivewtwoh-card" *ngFor="let plano of planos; trackBy: trackByPlano">
+        <header class="card-header">
+          <div class="card-title-group">
+            <h3>{{ plano.titulo }}</h3>
+            <p class="objetivo" *ngIf="plano.objetivo">{{ plano.objetivo }}</p>
+          </div>
+
+          <div class="badges">
+            <span class="badge" [ngClass]="getStatusClasse(plano.status)">
+              {{ formatarTexto(plano.status) }}
+            </span>
+            <span
+              class="badge outline"
+              [ngClass]="getPrioridadeClasse(plano.prioridade)"
+              *ngIf="plano.prioridade"
+            >
+              Prioridade {{ formatarTexto(plano.prioridade) }}
+            </span>
+          </div>
+        </header>
+
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span class="label">Responsável</span>
+            <span class="value">{{ plano.responsavel }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Prazo</span>
+            <span class="value">{{ formatarPrazo(plano.prazo) }}</span>
+          </div>
+          <div class="summary-item" *ngIf="plano.progresso !== undefined">
+            <span class="label">Progresso</span>
+            <span class="value">{{ plano.progresso }}%</span>
+          </div>
+          <div class="summary-item" *ngIf="plano.custoEstimado !== undefined">
+            <span class="label">Investimento</span>
+            <span class="value">{{
+              plano.custoEstimado | currency: getMoeda(plano.moeda) : 'symbol' : '1.0-0' : 'pt-BR'
+            }}</span>
+          </div>
+        </div>
+
+        <div class="progress-wrapper" *ngIf="plano.progresso !== undefined">
+          <div
+            class="progress-bar"
+            role="progressbar"
+            [attr.aria-valuenow]="plano.progresso"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress" [style.width.%]="plano.progresso"></div>
+          </div>
+        </div>
+
+        <div class="matrix-grid">
+          <div class="matrix-item">
+            <span class="matrix-label">What</span>
+            <p>{{ plano.oQue }}</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-label">Why</span>
+            <p>{{ plano.porQue }}</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-label">Where</span>
+            <p>{{ plano.onde }}</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-label">When</span>
+            <p>{{ formatarPrazo(plano.quando) }}</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-label">Who</span>
+            <p>{{ plano.quem }}</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-label">How</span>
+            <p>{{ plano.como }}</p>
+          </div>
+          <div class="matrix-item emphasis">
+            <span class="matrix-label">How much</span>
+            <p>
+              {{ plano.quanto | currency: getMoeda(plano.moeda) : 'symbol' : '1.0-0' : 'pt-BR' }}
+            </p>
+          </div>
+        </div>
+
+        <footer
+          class="card-footer"
+          *ngIf="(plano.indicadores?.length ?? 0) > 0 || plano.observacoes"
+        >
+          <div class="indicadores" *ngIf="(plano.indicadores?.length ?? 0) > 0">
+            <span class="footer-label">Indicadores</span>
+            <div class="indicator-list">
+              <span class="indicator-pill" *ngFor="let indicador of plano.indicadores">{{
+                indicador
+              }}</span>
+            </div>
+          </div>
+
+          <div class="observacoes" *ngIf="plano.observacoes">
+            <span class="footer-label">Observações</span>
+            <p>{{ plano.observacoes }}</p>
+          </div>
+        </footer>
+      </article>
+    </div>
+  </ng-template>
+</section>
