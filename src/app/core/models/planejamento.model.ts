@@ -49,3 +49,25 @@ export interface MatrizRisco {
   nivel: 'baixo' | 'medio' | 'alto' | 'critico';
   mitigacao: string;
 }
+
+export interface PlanoAcao5W2H {
+  id: string;
+  titulo: string;
+  objetivo?: string;
+  oQue: string;
+  porQue: string;
+  onde: string;
+  quando: string | Date;
+  quem: string;
+  como: string;
+  quanto: number;
+  responsavel: string;
+  prazo?: string | Date;
+  custoEstimado?: number;
+  moeda?: string;
+  prioridade?: 'baixa' | 'media' | 'alta';
+  status: 'planejado' | 'em_andamento' | 'concluido' | 'atrasado';
+  progresso?: number;
+  indicadores?: string[];
+  observacoes?: string;
+}
