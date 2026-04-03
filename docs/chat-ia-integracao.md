@@ -57,3 +57,24 @@ Criar um chat institucional no frontend (`sistema-gestao`) que consulta um endpo
 3. Criar `PromptBuilder` com template padronizado.
 4. Implementar `LlmGateway` desacoplado por provider (`OpenAI`, `OpenRouter`, `Ollama`, etc.).
 5. Adicionar testes de integração do endpoint.
+
+
+## Alinhamento final com frontend (contrato vigente)
+- Endpoint: `POST /api/chat`
+- Request: `message` (string), `sessionId` (string opcional)
+- Response: `sessionId` (string), `answer` (string), `contextUsed` (objeto), `confidence` (number de 0 a 1)
+
+## Configuração de ambiente no frontend
+O frontend lê `globalThis.__APP_CONFIG__` com:
+- `apiBaseUrl` (padrão: `http://localhost:8080/api`)
+- `chatUseMock` (padrão: `false`)
+
+Exemplo:
+```html
+<script>
+  window.__APP_CONFIG__ = {
+    apiBaseUrl: 'http://localhost:8080/api',
+    chatUseMock: false
+  };
+</script>
+```

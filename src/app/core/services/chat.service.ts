@@ -1,18 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, delay, map } from 'rxjs/operators';
 import { ChatRequest, ChatResponse } from '../models';
 import { gerarRespostaChatMock } from './chat.mock';
+import { API_CONFIG, ApiConfig } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  private readonly apiUrl = 'http://localhost:8080/api/chat';
-  private readonly usarMockData = true;
+  private readonly apiUrl: string;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    @Inject(API_CONFIG) private readonly apiConfig: ApiConfig
+  ) {
+    this.apiUrl = `${this.apiConfig.apiBaseUrl}/chat`;
+  }
 
   enviarMensagem(request: ChatRequest): Observable<ChatResponse> {
     const mensagem = request.message?.trim();
@@ -23,7 +28,7 @@ export class ChatService {
 
     const sessionId = request.sessionId ?? this.gerarSessionId();
 
-    if (this.usarMockData) {
+    if (this.apiConfig.chatUseMock) {
       return of(gerarRespostaChatMock(mensagem, sessionId)).pipe(delay(900));
     }
 
