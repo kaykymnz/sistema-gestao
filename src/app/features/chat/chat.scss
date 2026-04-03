@@ -1,0 +1,134 @@
+.chat-page {
+  .page-header {
+    margin-bottom: 20px;
+
+    h1 {
+      color: #fff;
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 14px;
+      max-width: 760px;
+    }
+  }
+
+  .chat-container {
+    display: grid;
+    gap: 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+  }
+
+  .chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .message {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(148, 163, 184, 0.08);
+
+    &.user {
+      background: rgba(59, 130, 246, 0.16);
+      border-color: rgba(59, 130, 246, 0.35);
+    }
+
+    &.assistant {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+
+      .role {
+        font-size: 12px;
+        font-weight: 700;
+        color: #e2e8f0;
+      }
+
+      .date {
+        font-size: 11px;
+        color: #94a3b8;
+      }
+    }
+
+    .content {
+      margin: 0;
+      color: #e2e8f0;
+      white-space: pre-line;
+      line-height: 1.5;
+    }
+  }
+
+  .typing {
+    color: #cbd5e1;
+    font-size: 12px;
+    font-style: italic;
+    padding: 0 2px;
+  }
+
+  .chat-input {
+    display: grid;
+    gap: 10px;
+
+    textarea {
+      width: 100%;
+      resize: vertical;
+      min-height: 78px;
+      border-radius: 10px;
+      border: 1px solid var(--color-border);
+      background: rgba(15, 23, 42, 0.55);
+      color: #f8fafc;
+      padding: 12px;
+      font: inherit;
+
+      &:focus {
+        outline: none;
+        border-color: rgba(59, 130, 246, 0.8);
+      }
+    }
+  }
+
+  .input-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+
+    .erro {
+      color: #fca5a5;
+      font-size: 12px;
+    }
+
+    button {
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      border-radius: 10px;
+      background: rgba(59, 130, 246, 0.2);
+      color: #e2e8f0;
+      font-weight: 600;
+      padding: 10px 14px;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

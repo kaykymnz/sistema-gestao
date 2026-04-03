@@ -28,6 +28,7 @@ export class Sidebar implements OnInit {
     { label: 'Pessoas', route: '/pessoas', icon: 'people' },
     { label: 'Planejamento', route: '/planejamento', icon: 'calendar_month' },
     { label: 'Relatórios', route: '/relatorios', icon: 'assessment' },
+    { label: 'Chat IA', route: '/chat', icon: 'smart_toy' },
   ];
 
   constructor(private sidebarStateService: SidebarStateService) {
