@@ -13,14 +13,14 @@
     font-size: 20px;
     font-weight: 600;
     margin: 0 0 8px;
-    color: var(--color-text-primary);
+    color: #fff;
   }
 }
 
 .section-description {
   font-size: 13px;
   line-height: 1.5;
-  color: var(--color-text-secondary);
+  color: #cbd5e1;
   margin: 0;
   max-width: 720px;
 }
@@ -31,21 +31,24 @@
   justify-content: center;
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(59, 130, 246, 0.08);
-  color: var(--color-primary);
+  background: rgba(59, 130, 246, 0.15);
+  color: #bfdbfe;
   font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
+  border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
 .empty-state {
-  background: var(--color-surface);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-md);
-  color: var(--color-text-secondary);
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: #cbd5e1;
   font-size: 14px;
   padding: 24px;
   text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .fivewtwoh-list {
@@ -54,11 +57,19 @@
 }
 
 .fivewtwoh-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   padding: 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
 }
 
 .card-header {
@@ -73,14 +84,14 @@
     margin: 0 0 8px;
     font-size: 18px;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: #fff;
   }
 
   .objetivo {
     margin: 0;
     font-size: 13px;
     line-height: 1.5;
-    color: var(--color-text-secondary);
+    color: #cbd5e1;
   }
 }
 
@@ -102,28 +113,33 @@
   white-space: nowrap;
 
   &.status-neutro {
-    background: #e0e7ff;
-    color: #3730a3;
+    background: rgba(59, 130, 246, 0.15);
+    color: #bfdbfe;
+    border: 1px solid rgba(59, 130, 246, 0.3);
   }
 
   &.status-atencao {
-    background: #fef3c7;
-    color: #b45309;
+    background: rgba(245, 158, 11, 0.15);
+    color: #fed7aa;
+    border: 1px solid rgba(245, 158, 11, 0.3);
   }
 
   &.status-positivo {
-    background: #d1fae5;
-    color: #047857;
+    background: rgba(34, 197, 94, 0.15);
+    color: #86efac;
+    border: 1px solid rgba(34, 197, 94, 0.3);
   }
 
   &.status-critico {
-    background: #fee2e2;
-    color: #b91c1c;
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
   }
 
   &.outline {
     background: transparent;
-    border: 1px solid currentColor;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #cbd5e1;
   }
 }
 
@@ -139,9 +155,10 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: var(--color-background);
-  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
   padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .label,
@@ -151,13 +168,13 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: #94a3b8;
 }
 
 .value {
   font-size: 14px;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: #fff;
 }
 
 .progress-wrapper {
@@ -166,7 +183,7 @@
 
 .progress-bar {
   height: 8px;
-  background: var(--color-border);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -190,12 +207,12 @@
     margin: 0;
     font-size: 13px;
     line-height: 1.55;
-    color: var(--color-text-primary);
+    color: #cbd5e1;
   }
 
   &.emphasis {
-    border: 1px solid rgba(59, 130, 246, 0.16);
-    background: rgba(59, 130, 246, 0.06);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    background: rgba(59, 130, 246, 0.1);
   }
 }
 

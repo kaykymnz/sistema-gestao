@@ -1,24 +1,28 @@
-<nav class="sidebar" [class.expanded]="isExpanded$ | async">
-  <!-- Toggle Button -->
+<!-- Backdrop/Overlay -->
+<div class="sidebar-overlay" *ngIf="isExpanded$ | async" (click)="toggleSidebar()"></div>
+
+<!-- Dropdown Menu -->
+<nav class="sidebar dropdown-menu" [class.open]="isExpanded$ | async">
+  <!-- Menu Header with Logo -->
   <div class="sidebar-header">
-    <div class="logo-wrapper" *ngIf="isExpanded$ | async">
+    <div class="logo-wrapper">
       <img src="/shared/ui/images/logo/logo-nova-horizonte-branca.png" alt="Nova Horizonte" class="logo">
     </div>
-    <button class="toggle-btn" (click)="toggleSidebar()" [title]="(isExpanded$ | async) ? 'Collapse' : 'Expand'">
-      <mat-icon>{{ (isExpanded$ | async) ? 'chevron_left' : 'chevron_right' }}</mat-icon>
+    <button class="close-btn" (click)="toggleSidebar()" title="Fechar">
+      <mat-icon>close</mat-icon>
     </button>
   </div>
 
   <!-- Menu Items -->
   <ul class="menu">
-    <li *ngFor="let item of menuItems" [routerLink]="item.route" routerLinkActive="active">
+    <li *ngFor="let item of menuItems" [routerLink]="item.route" routerLinkActive="active" (click)="toggleSidebar()">
       <mat-icon class="menu-icon">{{ item.icon }}</mat-icon>
-      <span class="menu-label" *ngIf="isExpanded$ | async">{{ item.label }}</span>
+      <span class="menu-label">{{ item.label }}</span>
     </li>
   </ul>
 
-  <!-- Bottom Toggle (Optional) -->
-  <div class="sidebar-footer" *ngIf="isExpanded$ | async">
+  <!-- Footer Settings -->
+  <div class="sidebar-footer">
     <button class="footer-btn">
       <mat-icon>settings</mat-icon>
       <span>Configurações</span>

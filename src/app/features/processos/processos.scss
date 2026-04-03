@@ -9,12 +9,12 @@
     font-size: 28px;
     font-weight: 700;
     margin-bottom: 8px;
-    color: var(--color-text-primary);
+    color: #fff;
   }
 
   .subtitle {
     font-size: 14px;
-    color: var(--color-text-secondary);
+    color: #cbd5e1;
     margin: 0;
   }
 }
@@ -27,18 +27,21 @@
 }
 
 .kpi-card {
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   padding: 20px;
   text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 
   &.positive {
-    border-left: 4px solid #10b981;
+    border-left: 4px solid #22c55e;
   }
 
   &.neutral {
-    border-left: 4px solid #3b82f6;
+    border-left: 4px solid rgb(59, 130, 246);
   }
 
   &.caution {
@@ -52,7 +55,7 @@
   h3 {
     font-size: 12px;
     font-weight: 600;
-    color: var(--color-text-secondary);
+    color: #94a3b8;
     margin: 0 0 8px 0;
     text-transform: uppercase;
   }
@@ -60,22 +63,25 @@
   .value {
     font-size: 32px;
     font-weight: 700;
-    color: var(--color-primary);
+    color: #bfdbfe;
   }
 }
 
 .info-box {
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
   border-left: 4px solid;
   padding: 16px;
   margin-bottom: 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 
   &.tendencia-melhorando {
-    border-left-color: #10b981;
+    border-left-color: #22c55e;
   }
 
   &.tendencia-estavel {

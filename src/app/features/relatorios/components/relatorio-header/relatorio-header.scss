@@ -1,0 +1,121 @@
+.relatorio-header {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 4px solid rgba(59, 130, 246, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .info-principal {
+    flex: 1;
+    min-width: 0;
+
+    .titulo {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+      margin: 0 0 8px 0;
+    }
+
+    .descricao {
+      font-size: 14px;
+      color: #cbd5e1;
+      margin: 0;
+    }
+  }
+
+  .meta-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+
+    .label {
+      font-weight: 600;
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+
+    .badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 500;
+      white-space: nowrap;
+
+      &.tipo-diagnostico {
+        background: rgba(59, 130, 246, 0.15);
+        color: #bfdbfe;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+      }
+
+      &.tipo-analise {
+        background: rgba(139, 92, 246, 0.15);
+        color: #ddd6fe;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+      }
+
+      &.tipo-predicao {
+        background: rgba(34, 197, 94, 0.15);
+        color: #bbf7d0;
+        border: 1px solid rgba(34, 197, 94, 0.3);
+      }
+    }
+
+    .confiabilidade {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+
+      .barra-confiabilidade {
+        flex: 1;
+        height: 6px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        min-width: 60px;
+
+        .barra-preenchida {
+          height: 100%;
+          background: linear-gradient(90deg, #4ade80, #22c55e);
+          border-radius: 3px;
+          transition: width 0.3s ease;
+        }
+      }
+
+      .valor {
+        font-weight: 600;
+        color: #fff;
+        white-space: nowrap;
+        min-width: 35px;
+      }
+    }
+
+    .data {
+      color: #e2e8f0;
+    }
+  }
+}

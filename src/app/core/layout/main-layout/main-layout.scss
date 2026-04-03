@@ -1,9 +1,12 @@
 .layout {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100%;
   overflow: hidden;
   gap: 0;
+  background: linear-gradient(135deg, #0f172a 0%, #312e81 50%, #020617 100%);
+  padding-top: 108px;
 }
 
 .content {
@@ -11,11 +14,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
-
-.page {
-  flex: 1;
+  padding: 24px;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 24px;
 }

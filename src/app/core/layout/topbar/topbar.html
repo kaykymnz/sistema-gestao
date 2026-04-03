@@ -1,6 +1,20 @@
 <div class="topbar">
-  <!-- Left Section: Search -->
+  <!-- Left Section: Menu Items & Search -->
   <div class="topbar-left">
+    <!-- Menu Items (Horizontal) -->
+    <nav class="menu-list">
+      <a 
+        *ngFor="let item of menuItems"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="menu-item"
+      >
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span class="menu-label">{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <!-- Search Box -->
     <div class="search-box">
       <mat-icon>search</mat-icon>
       <input 
@@ -12,8 +26,10 @@
     </div>
   </div>
 
-  <!-- Center: Spacer -->
-  <div class="topbar-spacer"></div>
+  <!-- Center: Logo/Title -->
+  <div class="topbar-center">
+    <mat-icon class="logo-icon">apps</mat-icon>
+  </div>
 
   <!-- Right Section: Notifications & Profile -->
   <div class="topbar-right" *ngIf="userProfile$ | async as profile">
@@ -93,4 +109,3 @@
     <span>Nova atualização</span>
   </button>
 </mat-menu>
-

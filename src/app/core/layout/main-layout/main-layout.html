@@ -1,11 +1,9 @@
 <div class="layout">
-  <app-sidebar></app-sidebar>
+  <!-- Topbar with integrated menu -->
+  <app-topbar></app-topbar>
 
+  <!-- Main Content Area -->
   <div class="content">
-    <app-topbar></app-topbar>
-
-    <div class="page">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </div>
