@@ -5,3 +5,4 @@ export * from './planejamento.service';
 export * from './relatorio.service';
 export * from './sidebar-state.service';
 export * from './user-profile.service';
+export * from './chat.service';

@@ -37,6 +37,12 @@ export const routes: Routes = [
             .then(m => m.Relatorios)
       },
       {
+        path: 'chat',
+        loadComponent: () =>
+          import('./features/chat/chat')
+            .then(m => m.Chat)
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'

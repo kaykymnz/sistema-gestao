@@ -1,0 +1,43 @@
+<section class="chat-page">
+  <header class="page-header">
+    <h1>Chat IA Estratégico</h1>
+    <p class="subtitle">
+      Converse com um assistente contextualizado com os dados institucionais da Universidade Nova Horizonte.
+    </p>
+  </header>
+
+  <div class="chat-container">
+    <div class="chat-messages">
+      <article
+        *ngFor="let message of messages(); trackBy: trackByMessage"
+        class="message"
+        [class.user]="message.role === 'user'"
+        [class.assistant]="message.role === 'assistant'"
+      >
+        <div class="meta">
+          <span class="role">{{ message.role === 'user' ? 'Você' : 'Assistente IA' }}</span>
+          <span class="date">{{ message.createdAt | date : 'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <p class="content">{{ message.content }}</p>
+      </article>
+
+      <div class="typing" *ngIf="carregando()">Assistente está analisando o contexto...</div>
+    </div>
+
+    <div class="chat-input">
+      <textarea
+        [(ngModel)]="perguntaAtual"
+        [disabled]="carregando()"
+        rows="3"
+        placeholder="Pergunte, por exemplo: quais são as prioridades estratégicas para reduzir gargalos de matrícula?"
+      ></textarea>
+
+      <div class="input-actions">
+        <span class="erro" *ngIf="erro()">{{ erro() }}</span>
+        <button type="button" (click)="enviarPergunta()" [disabled]="carregando() || !perguntaAtual.trim()">
+          {{ carregando() ? 'Consultando...' : 'Enviar pergunta' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
